@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  php:
+    container_name: php
+    build:
+      context: ./
+      target: php
+    ports:
+      - "9003:9003"
+    volumes:
+      - .:/var/www/html/
+    environment:
+      - XDEBUG_SESSION=PHPSTORM
+
+  nginx:
+    container_name: nginx
+    image: bitnami/nginx:1.19-debian-10
+    ports:
+      - "8092:8080"
+    volumes:
+      - ./docker/app.conf:/opt/bitnami/nginx/conf/server_blocks/app.conf
+      - .:/var/www/html/
+    depends_on:
+      - php
