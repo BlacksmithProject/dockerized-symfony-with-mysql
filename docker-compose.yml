@@ -10,6 +10,8 @@ services:
       - "9003:9003"
     volumes:
       - .:/var/www/html/
+    depends_on:
+      - db
     environment:
       - XDEBUG_SESSION=PHPSTORM
 
@@ -23,3 +25,27 @@ services:
       - .:/var/www/html/
     depends_on:
       - php
+
+  db:
+    container_name: mysql
+    image: mysql:5.7-debian
+    ports:
+      - "3310:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=app
+    volumes:
+      - data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - "8093:80"
+    environment:
+      - PMA_ARBITRARY=1
+
+volumes:
+  data:

@@ -14,6 +14,11 @@ RUN apt-get update \
     # Git
     && apt-get -y install git
 
+# Ajout Mysql
+RUN docker-php-source extract \
+	&& docker-php-ext-install pdo_mysql \
+	&& docker-php-source delete
+
 ARG XdebugFile=/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 RUN echo "xdebug.mode=develop" >> $XdebugFile \
