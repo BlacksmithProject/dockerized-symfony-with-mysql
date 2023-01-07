@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  php:
+    ports:
+      - "9003:9003"
+
+  nginx:
+    ports:
+      - "8092:8080"
+
+  db:
+    ports:
+      - "3310:3306"
+
+  phpmyadmin:
+    ports:
+      - "8093:80"
+
+volumes:
+  data:
