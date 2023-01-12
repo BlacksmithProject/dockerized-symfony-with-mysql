@@ -11,6 +11,9 @@ RUN apt-get update \
     # zip
     && apt-get install -y zlib1g-dev libzip-dev \
     && docker-php-ext-install zip \
+    # intl
+    && apt-get install -y libicu-dev \
+    && docker-php-ext-install intl \
     # Git
     && apt-get -y install git
 
