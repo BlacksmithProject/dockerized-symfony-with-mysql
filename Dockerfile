@@ -24,9 +24,12 @@ RUN docker-php-source extract \
 
 ARG XdebugFile=/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-RUN echo "xdebug.mode=develop" >> $XdebugFile \
-    && echo "xdebug.start_with_request=on" >> $XdebugFile \
-    && echo "xdebug.discover_client_host=on" >> $XdebugFile
+
+RUN echo "xdebug.mode=develop,debug" >> $XdebugFile \
+    && echo "xdebug.start_with_request=yes" >> $XdebugFile \
+    && echo "xdebug.discover_client_host=0" >> $XdebugFile \
+    && echo "xdebug.client_port=41619" >> $XdebugFile \
+    && echo "xdebug.client_host=host.docker.internal" >> $XdebugFile
 
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer

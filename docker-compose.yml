@@ -12,8 +12,8 @@ services:
       - .:/var/www/html/
     depends_on:
       - db
-    environment:
-      - XDEBUG_SESSION=PHPSTORM
+    extra_hosts:
+      - host.docker.internal:host-gateway
 
   nginx:
     container_name: nginx
