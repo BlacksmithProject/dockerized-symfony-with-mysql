@@ -10,6 +10,7 @@ services:
       - "9003:9003"
     volumes:
       - .:/var/www/html/
+      - ./docker/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     depends_on:
       - db
     extra_hosts:
