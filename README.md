@@ -22,3 +22,8 @@ You might have some ports already used (event though i tried to use unused ports
 
 - Your project on http://localhost:8092
 - Phpmyadmin on http://localhost:8093
+
+### Xdebug:
+
+This is disabled by default, but you can activate it by un-commenting the lines in docker/xdebug.ini 
+and restarting the php container.
