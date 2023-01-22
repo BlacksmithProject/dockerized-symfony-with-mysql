@@ -51,7 +51,10 @@ symfony: ## List all Symfony commands or pass the parameter "c=" to run a given 
 clear-cache: c=c:c ## Clear the cache
 clear-cache: symfony
 
-## —— PHPstan 🔧 ———————————————————————————————————————————————————————————————
+## —— Tools 🔧 —————————————————————————————————————————————————————————————————
 
 stan: ## Launch PHPstan at level 9 on src
-	@$(PHP_CONTAINER) vendor/bin/phpstan analyse src --level=9
+	@$(PHP_CONTAINER) vendor/bin/phpstan analyse src tests --level=9
+
+test: ## Launch PHPUnit
+	@$(PHP_CONTAINER) vendor/bin/phpunit
