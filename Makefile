@@ -9,13 +9,9 @@ PHP      = $(PHP_CONT) php
 COMPOSER = $(PHP_CONT) composer
 SYMFONY  = $(PHP_CONT) bin/console
 
-# Doctrine migrations commands
-MIGRATIONS_GENERATE = doctrine:migrations:generate
-MIGRATIONS_MIGRATE = doctrine:migrations:migrate --no-interaction
-
 # Misc
 .DEFAULT_GOAL = help
-.PHONY        : init help build up start down logs sh composer vendor sf cc
+.PHONY        : init help build up start down logs sh composer vendor sf cc phpstan
 
 ## —— 🎵 🐳 The Symfony Docker Makefile 🐳 🎵 ——————————————————————————————————
 init: start vendor cc ## Build and start the containers, install vendors and run migrations
@@ -55,9 +51,7 @@ sf: ## List all Symfony commands or pass the parameter "c=" to run a given comma
 cc: c=c:c ## Clear the cache
 cc: sf
 
-## —— Doctrine migrations ——————————————————————————————————————————————————————
-mg: c=$(MIGRATIONS_GENERATE) ## Generate Doctrine migrations
-mg: sf
+## —— Phpstan 🔧 ———————————————————————————————————————————————————————————————
 
-mm: c=$(MIGRATIONS_MIGRATE) ## Execute Doctrine migrations
-mm: sf
+phpstan:
+	@$(PHP_CONT) vendor/bin/phpstan analyse src --level=9
