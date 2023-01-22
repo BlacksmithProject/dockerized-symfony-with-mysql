@@ -2,19 +2,19 @@
 DOCKER_COMP = docker compose
 
 # Docker containers
-PHP_CONT = $(DOCKER_COMP) exec php
+PHP_CONTAINER = $(DOCKER_COMP) exec php
 
 # Executables
-PHP      = $(PHP_CONT) php
-COMPOSER = $(PHP_CONT) composer
-SYMFONY  = $(PHP_CONT) bin/console
+PHP      = $(PHP_CONTAINER) php
+COMPOSER = $(PHP_CONTAINER) composer
+SYMFONY  = $(PHP_CONTAINER) bin/console
 
 # Misc
 .DEFAULT_GOAL = help
-.PHONY        : init help build up start down logs sh composer vendor sf cc phpstan
+.PHONY        : init help build up start down logs shell composer vendor symfony clear-cache stan
 
 ## —— 🎵 🐳 The Symfony Docker Makefile 🐳 🎵 ——————————————————————————————————
-init: start vendor cc ## Build and start the containers, install vendors and run migrations
+init: start vendor clear-cache ## Build and start the containers, install vendors and run migrations
 
 help: ## Outputs this help screen
 	@grep -E '(^[a-zA-Z0-9\./_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
@@ -31,8 +31,8 @@ start: build up ## Build and start the containers
 down: ## Stop the docker hub
 	@$(DOCKER_COMP) down --remove-orphans
 
-sh: ## Connect to the PHP FPM container
-	@$(PHP_CONT) sh
+shell: ## Connect to the PHP FPM container
+	@$(PHP_CONTAINER) sh
 
 ## —— Composer 🧙 ——————————————————————————————————————————————————————————————
 composer: ## Run composer, pass the parameter "c=" to run a given command, example: make composer c='req symfony/orm-pack'
@@ -44,14 +44,14 @@ vendor: c=install --prefer-dist --no-dev --no-progress --no-scripts --no-interac
 vendor: composer
 
 ## —— Symfony 🎵 ———————————————————————————————————————————————————————————————
-sf: ## List all Symfony commands or pass the parameter "c=" to run a given command, example: make sf c=about
+symfony: ## List all Symfony commands or pass the parameter "c=" to run a given command, example: make symfony c=about
 	@$(eval c ?=)
 	@$(SYMFONY) $(c)
 
-cc: c=c:c ## Clear the cache
-cc: sf
+clear-cache: c=c:c ## Clear the cache
+clear-cache: symfony
 
-## —— Phpstan 🔧 ———————————————————————————————————————————————————————————————
+## —— PHPstan 🔧 ———————————————————————————————————————————————————————————————
 
-phpstan:
-	@$(PHP_CONT) vendor/bin/phpstan analyse src --level=9
+stan: ## Launch PHPstan at level 9 on src
+	@$(PHP_CONTAINER) vendor/bin/phpstan analyse src --level=9
