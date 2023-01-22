@@ -11,9 +11,6 @@ final class DefaultController
     #[Route('/')]
     public function __invoke(): JsonResponse
     {
-        $a = 1 + 1;
-        $b = 2 + 2;
-
-        return new JsonResponse(['hello world !', $a, $b]);
+        return new JsonResponse(['hello world !']);
     }
 }
